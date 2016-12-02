@@ -1,13 +1,29 @@
 // Synchronous continuation-passing style
 
-function add (a, b, callback) {
-	callback(a + b);
+function addSync (a, b, callback) {
+    callback(a + b);
 }
 
 console.log('before');
-add(1, 2, function (result) {
-	console.log('Result: ' + result);
+
+addSync(1, 2, function (result) {
+    console.log('Result: ' + result);
 });
+
 console.log('after');
 
 // Asynchronous continuation-passing style
+
+function addAsync (a, b, callback) {
+    setTimeout(function () {
+        callback(a + b);
+    }, 1);
+}
+
+console.log('before');
+
+addAsync(1, 2, function (result) {
+    console.log('Result: ' + result);
+});
+
+console.log('after');
