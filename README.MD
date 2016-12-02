@@ -1,0 +1,1 @@
+Learning examples and experiment projects created during reading Node.js design patterns by Mario Casciaro.
