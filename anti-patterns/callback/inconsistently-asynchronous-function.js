@@ -31,7 +31,7 @@ function createFileReader (filename) {
 }
 
 // Problem reproduction
-var reader1 = createFileReader('mock-data/data.txt');
+var reader1 = createFileReader('mock-data/data.txt'); 
 reader1.onDataReady(function (data) {
     console.log('First call data.txt: ' + data);
 });
