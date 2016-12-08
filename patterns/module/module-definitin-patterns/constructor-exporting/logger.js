@@ -1,4 +1,8 @@
 function Logger (name) {
+    // guard against invocation that don't use the 'new' instruction
+    if (!(this instanceof Logger)) {
+        return new Logger(name);
+    }
     this.name = name;
 }
 
