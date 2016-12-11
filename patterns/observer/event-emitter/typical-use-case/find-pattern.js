@@ -1,8 +1,9 @@
 var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
 
-function findPattern(file, regex) {
+function findPattern(files, regex) {
     var emitter = new EventEmitter();
+
     files.forEach(function (file) {
         fs.readFile(file, 'utf8', function (err, content) {
             if (err) {
@@ -19,4 +20,8 @@ function findPattern(file, regex) {
             }
         });
     });
+
+    return emitter;
 }
+
+module.exports = findPattern;
