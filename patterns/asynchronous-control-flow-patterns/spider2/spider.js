@@ -1,4 +1,3 @@
-// Example of sequential execution flow
 var fs = require('fs');
 var request = require('request');
 var mkdirp = require('mkdirp');
