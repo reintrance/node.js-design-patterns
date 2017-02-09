@@ -4,7 +4,9 @@ var getUrls = require('get-urls')
 
 function urlToFileName (urlString) {
     var urlObject = url.parse(urlString);
-    var filename = path.normalize(`${process.cwd()}/downloads/${urlObject.pathname}`);
+    var fileName  = path.basename(urlObject.pathname);
+    var pathToFile = fileName ? urlObject.pathname : path.join(urlObject.pathname, 'index.html')
+    var filename = path.normalize(`${process.cwd()}/downloads/${pathToFile}`);
 
     return filename;
 }
