@@ -1,9 +1,11 @@
-// Sequential iteration flow
+// Parallel execution flow
 var fs = require('fs');
 var request = require('request');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var utilities = require('../utilities');
+
+var spidering = {};
 
 function saveFile (filename, contents, callback) {
     mkdirp(path.dirname(filename), function (err) {
@@ -43,25 +45,33 @@ function spiderLinks (currentUrl, body, nesting, callback) {
 
     let links = utilities.getAllLinks(currentUrl, body);
 
-    function iterate (index) {
-        if (index === links.length) {
-            return callback();
+    var completed = 0;
+    var errored = false;
+
+    function done (err) {
+        if (err) {
+            errored = true;
+            return callback(err);
         }
 
-        spider(links[index], nesting - 1, function (err) {
-            if (err) {
-                return callback(err);
-            }
-
-            iterate(index + 1);
-        });
+        if (++completed === links.length && !errored) {
+            return callback();
+        }
     }
 
-    iterate(0);
+    links.forEach(function (link) {
+        spider(link, nesting - 1, done);
+    });
 }
 
 function spider (url, nesting, callback) {
     var filename = utilities.urlToFileName(url);
+
+    if (spidering[url]) {
+        return process.nextTick(callback);
+    }
+
+    spidering[url] = true;
 
     fs.readFile(filename, 'utf8', function (err, body) {
         if (err) {
