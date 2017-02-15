@@ -1,14 +1,16 @@
 // Limited parallel execution flow
-var fs = require('fs');
-var request = require('request');
-var mkdirp = require('mkdirp');
-var path = require('path');
+const fs = require('fs');
+const request = require('request');
+const mkdirp = require('mkdirp');
+const path = require('path');
 
-var utilities = require('../utilities');
-var TaskQueue = require('./taskQueue');
+const utilities = require('../utilities');
+const TaskQueue = require('./taskQueue');
 
-var spidering = {};
-var downloadQueue = new TaskQueue(2);
+const downloadQueue = new TaskQueue(2);
+
+let spidering = {};
+
 
 function saveFile (filename, contents, callback) {
     mkdirp(path.dirname(filename), function (err) {
@@ -51,8 +53,8 @@ function spiderLinks (currentUrl, body, nesting, callback) {
         return process.nextTick(callback);
     }
 
-    var completed = 0;
-    var errored = false;
+    let completed = 0;
+    let errored = false;
 
     links.forEach(function (link) {
         downloadQueue.pushTask((done) => {
@@ -73,7 +75,7 @@ function spiderLinks (currentUrl, body, nesting, callback) {
 }
 
 function spider (url, nesting, callback) {
-    var filename = utilities.urlToFileName(url);
+    let filename = utilities.urlToFileName(url);
 
     if (spidering[url]) {
         return process.nextTick(callback);

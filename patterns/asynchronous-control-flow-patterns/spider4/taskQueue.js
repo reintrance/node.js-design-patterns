@@ -10,17 +10,15 @@ TaskQueue.prototype.pushTask = function (task) {
 };
 
 TaskQueue.prototype.next = function() {
-    var self = this;
+    while (this.running < this.concurrency && this.queue.length) {
+        let task = this.queue.shift();
 
-    while (self.running < self.concurrency && self.queue.length) {
-        var task = self.queue.shift();
-
-        task(function (err) {
-            self.running--;
-            self.next();
+        task((err) => {
+            this.running--;
+            this.next();
         });
 
-        self.running++;
+        this.running++;
     }
 };
 
