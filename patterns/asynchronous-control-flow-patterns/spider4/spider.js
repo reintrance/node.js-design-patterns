@@ -63,12 +63,12 @@ function spiderLinks (currentUrl, body, nesting, callback) {
                 }
 
                 if (++completed === links.length && !errored) {
-                    return callback();
+                    callback();
                 }
 
                 done();
             });
-        })
+        });
     });
 }
 
