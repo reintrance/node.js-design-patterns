@@ -13,7 +13,7 @@ TaskQueue.prototype.next = function() {
     while (this.running < this.concurrency && this.queue.length) {
         let task = this.queue.shift();
 
-        task((err) => {
+        task(() => {
             this.running--;
             this.next();
         });

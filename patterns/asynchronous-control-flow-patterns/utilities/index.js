@@ -24,15 +24,15 @@ function promisify (callbackBasedApi) {
         let args = [].slice.call(arguments);
 
         return new Promise((resolve, reject) => {
-            args.push((err, result) => {
+            args.push((err, ...otherArgs) => {
                 if (err) {
                     return reject(err);
                 }
 
-                if (arguments.length < 2) {
-                    resolve(result);
+                if (otherArgs.length < 2) {
+                    resolve(otherArgs[0]);
                 } else {
-                    resolve([].slice.call(arguments, 1));
+                    resolve(otherArgs);
                 }
             });
 
