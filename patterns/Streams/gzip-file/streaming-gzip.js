@@ -7,8 +7,6 @@ const pathToCompressed = './compressed';
 const filename = path.basename(file);
 const compressedFilePath = path.join(pathToCompressed, `${filename}.gz`);
 
-
-
 fs.createReadStream(file)
     .pipe(zlib.createGzip())
     .pipe(fs.createWriteStream(compressedFilePath))
